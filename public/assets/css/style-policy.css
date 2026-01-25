@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
+
+:root {
+    --glass-white: rgba(255, 255, 255, 0.45);
+    --inner-box: rgba(255, 255, 255, 0.2);
+    --text-dark: #2c3e50;
+    --accent-blue: #3f51b5;
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #0f132e;
+}
+
+.policy-wrapper {
+    min-height: 100vh;
+    width: 100%;
+    /* Image de fond identique à index.html */
+    background: url('../images/bg.png') no-repeat center center;
+    background-size: cover;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Suppression des éléments haut droit (automatique car non inclus dans le HTML) */
+
+.header-logo {
+    position: absolute;
+    top: 30px;
+    left: 40px;
+}
+
+.logo-img { width: 70px; }
+
+/* --- CARTE PRINCIPALE --- */
+.policy-card {
+    width: 100%;
+    max-width: 750px; /* Taille optimale par rapport à l'image */
+    background: var(--glass-white);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 35px;
+    padding: 40px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    /* Animation de croissance progressive */
+    transition: all 0.4s ease-in-out;
+}
+
+.policy-title {
+    text-align: center;
+    color: #1a237e;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+/* --- ZONE DE TEXTE DÉFILANTE (Le carré alloué) --- */
+.scroll-content-box {
+    background: var(--inner-box);
+    border-radius: 20px;
+    padding: 30px;
+    max-height: 55vh; /* Hauteur fixe pour forcer le scroll interne */
+    overflow-y: auto;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Personnalisation du scrollbar pour rester élégant */
+.scroll-content-box::-webkit-scrollbar { width: 6px; }
+.scroll-content-box::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+}
+
+.intro-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-dark);
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* Sections internes */
+.policy-section {
+    display: flex;
+    margin-bottom: 20px;
+    align-items: flex-start;
+}
+
+.section-icon {
+    width: 12px;
+    height: 12px;
+    background: var(--accent-blue);
+    border-radius: 50%;
+    margin-top: 6px;
+    margin-right: 15px;
+    flex-shrink: 0;
+    box-shadow: 0 0 8px rgba(63, 81, 181, 0.5);
+}
+
+.section-text h5 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a237e;
+    margin-bottom: 5px;
+}
+
+.section-text p {
+    font-size: 0.88rem;
+    color: #444;
+    line-height: 1.5;
+}
+
+.contact-footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.email-link {
+    color: #1a237e;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/* --- BOUTON REVENIR --- */
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.btn-return {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid white;
+    padding: 12px 40px;
+    border-radius: 25px;
+    color: #1a237e;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn-return:hover {
+    background: white;
+    transform: translateY(-2px);
+}
+
+/* --- RESPONSIVE AU MILLIMÈTRE --- */
+@media (max-width: 768px) {
+    .policy-card {
+        padding: 25px;
+        max-width: 95%; /* S'agrandit pour faciliter la lecture */
+    }
+    .scroll-content-box {
+        max-height: 65vh; /* Plus d'espace sur mobile */
+        padding: 15px;
+    }
+    .header-logo {
+        top: 15px;
+        left: 20px;
+    }
+    .logo-img { width: 50px; }
+}

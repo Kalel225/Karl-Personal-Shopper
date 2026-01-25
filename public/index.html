@@ -3,44 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karl Personal Shopper</title>
+    <title>Karl. - La Maison du Personal Shopper</title>
+    <link rel="shortcut icon" href="assets/images/logo.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <div class="background-image"></div>
-    <div class="wrapper">
-        <div class="left-section">
-            <h1 id="sloganText" class="slogan">LA MAISON DU <br> PERSONAL SHOPPER</h1>
-        </div>
-        <div class="right-section">
-            <div id="loading-view">
-                <img src="images/shelves.png" alt="Loading" class="img-fluid">
+
+    <div class="main-container">
+        <div class="left-content">
+            <div class="brand-header">
+                <img src="assets/images/logo.png" alt="Karl Logo" class="logo">
+                <h1 class="slogan">LA MAISON DU<br>PERSONAL SHOPPER</h1>
             </div>
-            <div id="form-view">
-                <h3 class="text-white mb-4">COMMANDE</h3>
+        </div>
+
+        <div class="right-content">
+            <div class="glass-form">
+                <h2 class="form-title">FICHE DE COMMANDE</h2>
+                <p class="form-subtitle">Remplissez le formulaire pour valider votre commande.</p>
+
                 <form id="orderForm">
-                    <input type="text" id="nom" class="form-control glass-input" placeholder="Nom Complet" required>
-                    <input type="email" id="email" class="form-control glass-input" placeholder="Email" required>
-                    <input type="text" id="tel" class="form-control glass-input" placeholder="Téléphone" required>
-                    <textarea id="panier" class="form-control glass-input" placeholder="Détails Panier"></textarea>
-                    <input type="text" id="prix" class="form-control glass-input" placeholder="Prix Total">
-                    <button type="submit" class="btn btn-primary w-100 mt-3">Valider</button>
+                    <div class="form-group mb-3">
+                        <label>E-mail *</label>
+                        <input type="email" id="email" class="glass-input" placeholder="votre-email@exemple.com" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Nom et prénoms *</label>
+                        <input type="text" id="nom" class="glass-input" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Numéro de téléphone *</label>
+                        <input type="tel" id="telephone" class="glass-input" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Lieu d'habitation (exemple: Cocody Angré) *</label>
+                        <input type="text" id="lieu" class="glass-input" placeholder="Votre réponse" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Paniers validés (exemple: Shein, mango,..) *</label>
+                        <input type="text" id="panier" class="glass-input" placeholder="Votre réponse" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label>Prix total du panier *</label>
+                        <input type="number" id="prix" class="glass-input" placeholder="Votre réponse" required>
+                    </div>
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Montant versé *</label>
+                                <input type="number" id="montant_verse" class="glass-input" placeholder="0" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Montant restant *</label>
+                                <input type="number" id="montant_restant" class="glass-input readonly-input" placeholder="0" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <label><i class="bi bi-paperclip"></i> Captures des commandes</label>
+                        <p class="small-text-faded">Importez jusqu'à 10 fichiers (1 Go max).</p>
+                        <input type="file" id="captures" class="d-none" multiple>
+                        <button type="button" class="btn-file" onclick="document.getElementById('captures').click()">
+                            <i class="bi bi-paperclip"></i> Ajouter un fichier
+                        </button>
+                        <div id="file-count" class="small-text mt-1"></div>
+                    </div>
+
+                    <div class="form-check mt-3 mb-4">
+                        <input class="form-check-input" type="checkbox" id="approved" required>
+                        <label class="form-check-label text-white">Lu et approuvé</label>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Envoyer</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="termsModal" data-bs-backdrop="static">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content bg-dark text-white">
-                <div class="modal-body">Acceptez-vous les termes du contrat ?</div>
-                <div class="modal-footer"><button class="btn btn-light" id="btnAccept">Validation</button></div>
+    <div class="modal fade" id="policyModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content glass-modal" style="background: rgba(15, 19, 46, 0.95); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(20px);">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title text-white">Politique de Vente & Confidentialité</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe src="policy.html" style="width: 100%; height: 60vh; border: none; border-radius: 8px;"></iframe>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-primary w-100" id="closePolicyBtn" data-bs-modal="modal">J'ai lu et je comprends</button>
+                </div>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/index.js"></script>
+    <script src="assets/js/script.js"></script>
 </body>
 </html>
