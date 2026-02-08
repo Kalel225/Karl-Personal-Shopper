@@ -1,66 +1,83 @@
-let pendingData = null; // Variable pour garder les infos en mémoire
+console.log("Script chargé ✅"); // Pour vérifier que le JS se lance
 
-// 1. Calcul automatique du Reste à payer
-const prix = document.getElementById('prix');
-const verse = document.getElementById('montant_verse');
-const restant = document.getElementById('montant_restant');
+// Variables globales
+const form = document.getElementById('orderForm');
+const modalEl = document.getElementById('policyModal');
+const confirmBtn = document.getElementById('confirmPolicyBtn');
+let finalData = {}; // On stocke les données ici en format simple
 
-function calcul() {
-    const p = parseFloat(prix.value) || 0;
-    const v = parseFloat(verse.value) || 0;
-    restant.value = p - v;
+// 1. Calcul automatique ( inchangé )
+function updateCalcul() {
+    const prix = parseFloat(document.getElementById('prix').value) || 0;
+    const verse = parseFloat(document.getElementById('montant_verse').value) || 0;
+    document.getElementById('montant_restant').value = prix - verse;
 }
-prix.addEventListener('input', calcul);
-verse.addEventListener('input', calcul);
+document.getElementById('prix').addEventListener('input', updateCalcul);
+document.getElementById('montant_verse').addEventListener('input', updateCalcul);
 
-// 2. Interception du formulaire -> Ouvre la Modal
-document.getElementById('orderForm').addEventListener('submit', function(e) {
-    e.preventDefault();
+// 2. Quand on soumet le formulaire
+form.addEventListener('submit', function(e) {
+    e.preventDefault(); // On bloque le rechargement
+    console.log("Formulaire soumis, ouverture modal...");
+
+    // On capture TOUTES les données maintenant
+    const formData = new FormData(form);
     
-    // On capture les données du formulaire
-    const formData = new FormData(this);
-    // Ajout manuel du montant restant car les champs disabled ne sont pas envoyés
-    formData.append('montant_restant', restant.value);
+    // On convertit FormData en objet JSON simple pour éviter les erreurs d'envoi
+    finalData = Object.fromEntries(formData.entries());
+    // On force l'ajout du montant restant (souvent ignoré car readonly)
+    finalData.montant_restant = document.getElementById('montant_restant').value;
     
-    pendingData = formData; // On sauvegarde
-    
-    // Ouvre la modal
-    const modal = new bootstrap.Modal(document.getElementById('policyModal'));
+    // Ajout de la date et statut par défaut
+    finalData.date = new Date();
+    finalData.status = "En Traitement";
+
+    // Ouvrir la modal Bootstrap
+    const modal = new bootstrap.Modal(modalEl);
     modal.show();
 });
 
-// 3. Clic sur "J'ai lu et je comprends" -> Envoi BDD
-document.getElementById('confirmPolicyBtn').addEventListener('click', async function() {
+// 3. Quand on clique sur CONFIRMER dans la modal
+confirmBtn.addEventListener('click', async function() {
+    console.log("Clic sur Confirmer détecté !");
     
-    // Fermer la modal
-    const modalEl = document.getElementById('policyModal');
-    const modalInstance = bootstrap.Modal.getInstance(modalEl);
-    modalInstance.hide();
+    // Désactiver le bouton pour éviter double clic
+    confirmBtn.disabled = true;
+    confirmBtn.innerText = "Envoi en cours...";
 
-    // Envoyer au serveur
     try {
-        // Note: Ici on simule l'envoi JSON pour Vercel (plus simple sans Multer)
-        const dataObj = Object.fromEntries(pendingData.entries());
-        
+        console.log("Envoi des données vers /api/orders...", finalData);
+
         const response = await fetch('/api/orders', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(dataObj)
+            body: JSON.stringify(finalData)
         });
 
+        console.log("Réponse du serveur :", response.status);
+
         if (response.ok) {
-            // Affiche le Popup Succès
-            document.getElementById('successPopup').style.display = 'block';
-            
-            // Attend 3 secondes et recharge
+            // A. Fermer la modal
+            const modalInstance = bootstrap.Modal.getInstance(modalEl);
+            modalInstance.hide();
+
+            // B. Afficher le Popup Succès
+            const successPopup = document.getElementById('successPopup');
+            successPopup.style.display = 'block';
+
+            // C. Attendre et Recharger
             setTimeout(() => {
-                window.location.reload();
-            }, 3000);
+                window.location.reload(); // C'est ça qui réinitialise le formulaire
+            }, 2000);
+
         } else {
-            alert("Erreur lors de l'enregistrement.");
+            throw new Error("Erreur serveur " + response.status);
         }
+
     } catch (error) {
-        console.error(error);
-        alert("Erreur de connexion.");
+        console.error("ERREUR CRITIQUE :", error);
+        alert("Erreur technique : " + error.message);
+        confirmBtn.disabled = false;
+        confirmBtn.innerText = "J'ai lu et je comprends";
     }
 });
