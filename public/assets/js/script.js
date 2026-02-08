@@ -47,6 +47,7 @@ confirmBtn.addEventListener('click', async function() {
 
     try {
         console.log("Envoi des données vers /api/orders...", finalData);
+
         const response = await fetch('/api/orders', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
