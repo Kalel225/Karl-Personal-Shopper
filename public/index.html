@@ -3,8 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karl. - La Maison du Personal Shopper</title>
-    <link rel="shortcut icon" href="assets/images/logo.png" type="image/x-icon">
+    <title>Karl. - Commande</title>
+    
+    <link rel="shortcut icon" href="assets/images/logo.png" type="image/png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f132e">
+    <link rel="apple-touch-icon" href="assets/images/logo.png">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -12,100 +17,89 @@
 <body>
 
     <div class="main-container">
-        <div class="left-content">
-            <div class="brand-header">
-                <img src="assets/images/logo.png" alt="Karl Logo" class="logo">
-                <h1 class="slogan">LA MAISON DU<br>PERSONAL SHOPPER</h1>
-            </div>
-        </div>
-
-        <div class="right-content">
+        <div class="form-container">
             <div class="glass-form">
-                <h2 class="form-title">FICHE DE COMMANDE</h2>
-                <p class="form-subtitle">Remplissez le formulaire pour valider votre commande.</p>
+                <div class="text-center mb-4">
+                    <img src="assets/images/logo.png" alt="Logo" style="width: 80px;">
+                    <h2 class="form-title mt-2">FICHE DE COMMANDE</h2>
+                    <p class="form-subtitle">Remplissez le formulaire pour valider votre commande.</p>
+                </div>
 
                 <form id="orderForm">
-                    <div class="form-group mb-3">
-                        <label>E-mail *</label>
-                        <input type="email" id="email" class="glass-input" placeholder="votre-email@exemple.com" required>
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label>Nom et prénoms *</label>
-                        <input type="text" id="nom" class="glass-input" required>
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label>Numéro de téléphone *</label>
-                        <input type="tel" id="telephone" class="glass-input" required>
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label>Lieu d'habitation (exemple: Cocody Angré) *</label>
-                        <input type="text" id="lieu" class="glass-input" placeholder="Votre réponse" required>
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label>Paniers validés (exemple: Shein, mango,..) *</label>
-                        <input type="text" id="panier" class="glass-input" placeholder="Votre réponse" required>
-                    </div>
-
-                    <div class="form-group mb-3">
-                        <label>Prix total du panier *</label>
-                        <input type="number" id="prix" class="glass-input" placeholder="Votre réponse" required>
-                    </div>
-
-                    <div class="row g-2 mb-3">
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label>Montant versé *</label>
-                                <input type="number" id="montant_verse" class="glass-input" placeholder="0" required>
-                            </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label>E-mail *</label>
+                            <input type="email" name="email" class="glass-input" required>
                         </div>
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label>Montant restant *</label>
-                                <input type="number" id="montant_restant" class="glass-input readonly-input" placeholder="0" readonly>
-                            </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Nom et prénoms *</label>
+                            <input type="text" name="nom" class="glass-input" required>
                         </div>
                     </div>
 
-                    <div class="form-group mt-3">
-                        <label><i class="bi bi-paperclip"></i> Captures des commandes</label>
-                        <p class="small-text-faded">Importez jusqu'à 10 fichiers (1 Go max).</p>
-                        <input type="file" id="captures" class="d-none" multiple>
-                        <button type="button" class="btn-file" onclick="document.getElementById('captures').click()">
-                            <i class="bi bi-paperclip"></i> Ajouter un fichier
-                        </button>
-                        <div id="file-count" class="small-text mt-1"></div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label>Téléphone *</label>
+                            <input type="tel" name="telephone" class="glass-input" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>Lieu d'habitation *</label>
+                            <input type="text" name="lieu" class="glass-input" required>
+                        </div>
                     </div>
 
-                    <div class="form-check mt-3 mb-4">
-                        <input class="form-check-input" type="checkbox" id="approved" required>
-                        <label class="form-check-label text-white">Lu et approuvé</label>
+                    <div class="mb-3">
+                        <label>Détails des paniers (Shein, Mango...) *</label>
+                        <textarea name="panier" class="glass-input" rows="2" required></textarea>
                     </div>
 
-                    <button type="submit" class="btn-submit">Envoyer</button>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label>Prix Total *</label>
+                            <input type="number" id="prix" name="prix" class="glass-input" placeholder="0" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Montant Versé *</label>
+                            <input type="number" id="montant_verse" name="montant_verse" class="glass-input" placeholder="0" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Reste à payer</label>
+                            <input type="number" id="montant_restant" class="glass-input readonly-input" placeholder="0" readonly>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                         <label class="mb-2"><i class="bi bi-paperclip"></i> Captures (Max 10)</label>
+                         <input type="file" id="captures" name="captures" class="form-control glass-input" multiple>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Valider la commande</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="policyModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
-        <div class="modal-dialog modal-xl modal-dialog-scrollable">
-            <div class="modal-content glass-modal" style="background: rgba(15, 19, 46, 0.95); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(20px);">
+    <div class="modal fade" id="policyModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content glass-modal" style="background: #0f132e; color: white;">
                 <div class="modal-header border-0">
-                    <h5 class="modal-title text-white">Politique de Vente & Confidentialité</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title">Politique de Vente</h5>
                 </div>
                 <div class="modal-body">
-                    <iframe src="policy.html" style="width: 100%; height: 60vh; border: none; border-radius: 8px;"></iframe>
+                    <iframe src="policy.html" style="width: 100%; height: 50vh; border: none; background: white;"></iframe>
                 </div>
                 <div class="modal-footer border-0">
-                    <button type="button" class="btn btn-primary w-100" id="closePolicyBtn" data-bs-modal="modal">J'ai lu et je comprends</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-success" id="confirmPolicyBtn">J'ai lu et je comprends</button>
                 </div>
             </div>
         </div>
+    </div>
+
+    <div id="successPopup">
+        <div style="font-size: 3rem;">✅</div>
+        <h3>Commande Validée !</h3>
+        <p>Merci pour votre confiance.<br>Redirection en cours...</p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
